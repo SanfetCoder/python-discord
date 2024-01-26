@@ -31,4 +31,4 @@ async def smartest_guy(ctx):
   await ctx.send('Yang!')
 
 
-client.run("MTIwMDI2NDU2MjUyNDU2MTU0OQ.GEpR50.vsJhpnkh96FsLLtvdBjhyFoDbB0OVyUVt1-DNM")
+client.run()
