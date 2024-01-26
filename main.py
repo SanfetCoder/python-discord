@@ -55,13 +55,18 @@ async def on_message(message):
               
               # Send the file back as a message
               with open('downloaded_image.png', 'rb') as f:
-                input_path = "/Users/sanphetlovestina/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Development/python-discord/downloaded_image.png"
-                output_path = "/Users/sanphetlovestina/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Development/python-discord/compressed-image.png"
-                compress_image(input_path, output_path)
-                
-                with open ('compressed_image.jpeg', 'rb') as c:
-                  await message.channel.send(file=discord.File(c))
-                
+                try:
+                  input_path = "/Users/sanphetlovestina/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Development/python-discord/downloaded_image.png"
+                  output_path = "/Users/sanphetlovestina/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Development/python-discord/compressed-image.png"
+                  compress_image(input_path, output_path)
+                  
+                  with open ('compressed_image.jpeg', 'rb') as c:
+                    await message.channel.send(file=discord.File(c))
+                except Exception as e:
+                  error = str(e)
+                  if (error == "cannot write mode RGBA as JPEG"):
+                    error = "We can't convert image with transparency to JPEG file"
+                  await message.channel.send(error)
               
           
       
