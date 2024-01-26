@@ -1,10 +1,11 @@
+import base64
 import discord
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
 from PIL import Image, ImageOps
 from io import BytesIO
-from helper.image import compress_image
+from helper.image import compress_image, generate_image
 from rembg import remove
 
 load_dotenv()
@@ -27,6 +28,22 @@ async def on_message(message):
 
   if message.content.startswith('$who is the smartest guy in the world'):
     await message.channel.send('Yang!')
+    
+  if message.content.startswith('$generate_image'):
+    prompt = message.content.split('-')[1]
+    base64Image = generate_image(prompt)
+    result_image = base64.b64decode(base64Image)
+    # Open the image using PIL
+    result_image = Image.open(BytesIO(result_image))
+    # Save the image to a temporary file
+    temp_file = BytesIO()
+    result_image.save(temp_file, format='PNG')
+    temp_file.seek(0)
+
+    # Create a `discord.File` object
+    final_image = discord.File(temp_file, filename='image.png')
+    # Send final image through channel
+    await message.channel.send(file=final_image)
     
   if message.attachments:
       # Check if the message has image attachments
