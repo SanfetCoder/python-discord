@@ -27,7 +27,7 @@ async def on_message(message):
   if message.content.startswith('$who is the smartest guy in the world'):
     await message.channel.send('Yang!')
     
-  if message.attachments:
+  if message.attachments and message.content.startswith('$remove'):
     # Check if the message has image attachments
     for attachment in message.attachments:
       if attachment.content_type.startswith('image'):
