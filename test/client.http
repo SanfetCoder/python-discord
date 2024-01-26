@@ -1,0 +1,15 @@
+POST https://api.runpod.ai/v2/z859nidtlimktj/runsync
+authorization : 5NCV1VH3JVETJM3YUAWSTE6DA5JZQQJUQPKASDDH
+accept: application/json
+
+{
+  "input": {
+    "prompt": "building 8 stories",
+    "height": 512,
+    "width": 512,
+    "num_outputs": 1,
+    "num_inference_steps": 50,
+    "guidance_scale": 7.5,
+    "scheduler": "KLMS"
+  }
+}
