@@ -2,6 +2,9 @@ import discord
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
+from PIL import Image, ImageOps
+from io import BytesIO
+from rembg import remove
 
 load_dotenv()
 
@@ -23,20 +26,27 @@ async def on_message(message):
 
   if message.content.startswith('$who is the smartest guy in the world'):
     await message.channel.send('Yang!')
-  elif message.attachments:
+    
+  if message.attachments:
     # Check if the message has image attachments
     for attachment in message.attachments:
       if attachment.content_type.startswith('image'):
-        # Download the file
+         # Download the file
         saved_file = await attachment.save('downloaded_image.png')
         
         # Send the file back as a message
         with open('downloaded_image.png', 'rb') as f:
-          await message.channel.send(file=discord.File(f))
+          # Processing the image 
+          input = Image.open(f) 
+            
+          # Removing the background from the given Image 
+          output = remove(input) 
+            
+          #Saving the image in the given path 
+          output.save("/Users/sanphetlovestina/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Development/python-discord/remove-imaged.png") 
           
-        await message.channel.send(f'Thanks for the image, {message.author.name}!')
-      else:
-        await message.channel.send('Please upload a valid image.')
+          with open('remove-imaged.png', 'rb') as r:
+            await message.channel.send(file=discord.File(r))
     
 @bot.command(name='smart')
 async def smartest_guy(ctx):
